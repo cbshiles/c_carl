@@ -1,0 +1,3 @@
+struct Level {
+  //routes.. do i want a vector of array or wat (should be a fixed # for each level, but varying btwn levels)
+  
