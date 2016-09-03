@@ -3,62 +3,12 @@
 
 using namespace std;
 
+#include "levels.hpp"
 
 /* DIS DA COMPILA
    mainly an assortment of tools for the levels (or levels) to use
    has all the capabilities, but none of the drive
    levels take over and make use of it */
-
-class Level{
-public:
-  vector<char> spec;
-  vector<int (*)()> routes;
-  Level* parent;
-
-  Level(vector<char> s, vector<int (*)()> r, Level* p){
-    if(s.size()==r.size()){
-      spec = s;
-      routes = r;
-      parent = p;
-    }
-    else
-      throw "Special character and routine lists not of equal length!";
-  }
-
-  int isSpec(char c){
-    //checks if c is a special char
-    //returns its index in spec[] if so, -1 otherwise
-
-    int mid, low = 0, high = spec.size()-1;
-
-    int ans;
-    
-    while (high > low){
-      mid = (high+low)/2;
-
-      if (c <= spec[low])
-	return c == spec[low] ? low : -1;
-  
-      else if (c >= spec[high])
-	return c == spec[high] ? high : -1;
-
-      else {
-	char diff = c - spec[mid];
-	if (diff < 0) high = mid-1;
-	else if (diff > 0) low = mid+1;
-	else return mid;
-      }
-    }
-    return -1;
-  }
-
-  int checkSpec(char c){
-    int x = isSpec(c);
-    if (x != -1)
-      (*routes[x])();
-    return x;
-  }
-};
 
 
 #define MAXWL 100 //max word length: 100
@@ -79,17 +29,6 @@ void bead(char c){
   if (! clevel->checkSpec(c))
     add(c);
 }
-
-vector<char> cV(const char* c){
-  vector<char> cv;
-
-  while (*c != '\0'){
-    cv.push_back(*(c++)); //would this work w/o parens?
-  }
-  return cv;
-}
-
-#include "levels.hpp"
 
 int main(int argc, char *argv[]){
   try
