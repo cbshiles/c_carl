@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ int wptr = 0; //pointer to current position in word
   
 int add(char c){
   //returns 1 for a sucessful add, 0 if the buffer is full  or some other fail
+  //# should probably throw an error instead???
   if (wptr < MAXWL){
     wuff[wptr++] = c;
     return 1;
@@ -29,6 +31,9 @@ void bead(char c){
   if (! clevel->checkSpec(c))
     add(c);
 }
+
+//# doesnt even take input for a file yet
+//# need to do that and try some decently rigourous testing b4 proceeding
 
 int main(int argc, char *argv[]){
   try

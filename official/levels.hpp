@@ -3,55 +3,16 @@ struct Pathway{
   int (*fn)();
 
   Pathway(char cc, int (*fnn)()) : c(cc), fn(fnn){}
+
+  bool operator < (const Pathway& p2) const
+  {
+    return (c < p2.c);
+  }
 };
-
-
-bool comparePaths(const Pathway *p1, const Pathway *p2){
-  return p1->c < p2->c;
-}
-
 
 class Level{
 
-// protected:
-//   vector<char> cV(const char* c){ // turns a c-style string into a character vector
-//     vector<char> cv;
-
-//     while (*c != '\0'){
-//       cv.push_back(*(c++)); //would this work w/o parens?
-//     }
-//     return cv;
-//   }
-
-public:
-  vector<Pathway> paths;
-  // vector<char> spec;
-  // vector<int (*)()> routes;
-  Level* parent;
-
-  Level(const char* s, vector<int (*)()> r, Level* p){
-    //    vector<char> spec = cV(s);
-
-    int sSize = 0;
-    const char* is = s;
-    while (*is != '\0'){
-      sSize++;
-      is++;
-    }
-    
-    if(sSize == r.size()){
-
-      for (int i=0; i<r.size(); i++){
-	paths.push_back(Pathway(s[i], r[i]));
-      }
-      
-      // routes = r;
-      // parent = p;
-    }
-    else
-      throw "Special character and routine lists not of equal length!";
-  }
-
+protected:
   int isSpec(char c){
     //checks if c is a special char
     //returns its index in spec[] if so, -1 otherwise
@@ -79,14 +40,38 @@ public:
     return -1;
   }
 
+public:
+  vector<Pathway> paths;
+  Level* parent;
+
+  Level(const char* s, vector<int (*)()> r, Level* p){
+
+    //get string size :[
+    int sSize = 0;
+    const char* is = s;
+    while (*is != '\0'){
+      sSize++;
+      is++;
+    }
+
+    //make Pathway vector
+    if(sSize == r.size()){
+      for (int i=0; i<r.size(); i++){
+	paths.push_back(Pathway(s[i], r[i]));
+      }
+
+      sort(paths.begin(), paths.end());
+    }
+    else
+      throw "Special character and routine lists not of equal length!";
+  }
+
   int checkSpec(char c){
     int x = isSpec(c);
     if (x != -1)
       (*(paths[x].fn))();
     return x;
   }
-
-
 };
 
 int spacer(){
