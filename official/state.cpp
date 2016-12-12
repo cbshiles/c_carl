@@ -38,6 +38,8 @@ void bead(char c){
     //also need to change the state
     //so the thing runs its PRELIMINARY function, and then adds whatever else it needs to
     //to the list of 'terms' TERMZZZZ
+
+    //just have the state inherit from term -- and the only thing that done on the first level is have the state added to the term list &  change to the next state for interpreting
   }
 }
 
@@ -64,7 +66,6 @@ int main(int argc, char *argv[]){
   while (fgets(buf,1000, fptr)!=NULL){
     ip = buf;
     while (*ip){
-      //cstate = bead(*ip++);
       bead(*ip++);
     }
   }
